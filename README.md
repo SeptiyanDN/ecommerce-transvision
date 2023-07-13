@@ -26,9 +26,11 @@ Tutorial Setup Environtmen
   please look at the root of the project there is a query.txt file
   You can open the query.txt file 
   then run the queries one by one to create the database and the relationships from each table
-  
+
   Opsi 3 : 
   you can restore the database that I have prepared a backup file in this project
+
+  NOTE : For Testing You Can Import Collection Postman JSON on this Root Project
 ```
 
 Tutorial Installation Project E-Commerce
