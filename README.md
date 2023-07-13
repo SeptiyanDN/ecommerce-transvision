@@ -21,9 +21,12 @@ Tutorial Setup Environtmen
   
   Opsi 1 :
   You can use the database that is on my private server
+
   Opsi 2 :
   please look at the root of the project there is a query.txt file
-  You can open the query.txt file then run the queries one by one to create the database and the relationships from each table
+  You can open the query.txt file 
+  then run the queries one by one to create the database and the relationships from each table
+  
   Opsi 3 : 
   you can restore the database that I have prepared a backup file in this project
 ```
@@ -34,6 +37,18 @@ Tutorial Installation Project E-Commerce
   go mod init ecommerce
   go mod tidy
   go run .
+```
+
+Users Testing
+
+```bash
+  Credentials Account Seller
+  Username : seller
+  Password : iyanjipyeong
+
+  Credentials Account Buyer / User
+  Username : septiyan
+  Password : iyanjipyeong
 ```
 
 # Information
