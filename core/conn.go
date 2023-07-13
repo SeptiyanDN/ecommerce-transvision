@@ -1,7 +1,7 @@
 package core
 
 import (
-	"ecommerce/kedaihelpers"
+	"ecommerce/privatehelpers"
 	"fmt"
 	"log"
 	"os"
@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func DBConnect() kedaihelpers.DBStruct {
+func DBConnect() privatehelpers.DBStruct {
 	username := viper.GetString("database.username")
 	password := viper.GetString("database.password")
 	database := viper.GetString("database.name")
@@ -30,7 +30,7 @@ func DBConnect() kedaihelpers.DBStruct {
 	maxLifetime, _ := time.ParseDuration(viper.GetString("database.max_lifetime_connection") + "s")
 	db.SetMaxIdleConns(viper.GetInt("database.max_idle_dbection"))
 	db.SetConnMaxLifetime(maxLifetime)
-	dbs := kedaihelpers.DBStruct{Dbx: db}
+	dbs := privatehelpers.DBStruct{Dbx: db}
 
 	return dbs
 }

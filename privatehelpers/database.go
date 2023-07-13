@@ -1,4 +1,4 @@
-package kedaihelpers
+package privatehelpers
 
 import (
 	"fmt"

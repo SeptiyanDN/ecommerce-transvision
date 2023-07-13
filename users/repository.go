@@ -3,7 +3,7 @@ package users
 import (
 	"ecommerce/core"
 	"ecommerce/helpers"
-	"ecommerce/kedaihelpers"
+	"ecommerce/privatehelpers"
 	"errors"
 
 	"gorm.io/gorm"
@@ -20,10 +20,10 @@ type Repository interface {
 
 type repository struct {
 	db  *gorm.DB
-	dbs kedaihelpers.DBStruct
+	dbs privatehelpers.DBStruct
 }
 
-func NewRepository(db *gorm.DB, dbs kedaihelpers.DBStruct) *repository {
+func NewRepository(db *gorm.DB, dbs privatehelpers.DBStruct) *repository {
 	return &repository{db, dbs}
 }
 

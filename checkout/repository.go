@@ -1,7 +1,7 @@
 package checkout
 
 import (
-	"ecommerce/kedaihelpers"
+	"ecommerce/privatehelpers"
 	"ecommerce/transaction"
 	"encoding/json"
 
@@ -17,10 +17,10 @@ type CheckoutRepository interface {
 type checkoutRepository struct {
 	db                    *gorm.DB
 	transactionRepository transaction.Repository
-	dbs                   kedaihelpers.DBStruct
+	dbs                   privatehelpers.DBStruct
 }
 
-func NewCheckoutRepository(db *gorm.DB, transactionRepository transaction.Repository, dbs kedaihelpers.DBStruct) CheckoutRepository {
+func NewCheckoutRepository(db *gorm.DB, transactionRepository transaction.Repository, dbs privatehelpers.DBStruct) CheckoutRepository {
 	return &checkoutRepository{
 		db:                    db,
 		transactionRepository: transactionRepository,

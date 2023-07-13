@@ -6,8 +6,8 @@ import (
 	"ecommerce/checkout"
 	"ecommerce/handler"
 	"ecommerce/helpers"
-	"ecommerce/kedaihelpers"
 	"ecommerce/merchant"
+	"ecommerce/privatehelpers"
 	"ecommerce/products"
 	"ecommerce/transaction"
 	"ecommerce/users"
@@ -21,7 +21,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Routing(router *gin.Engine, dbs kedaihelpers.DBStruct, initGorm *gorm.DB) {
+func Routing(router *gin.Engine, dbs privatehelpers.DBStruct, initGorm *gorm.DB) {
 
 	// repository
 	userRepository := users.NewRepository(initGorm, dbs)
