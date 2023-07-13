@@ -1,0 +1,127 @@
+-- Create Table: roles
+CREATE TABLE roles (
+    role_id TEXT PRIMARY KEY,
+    role_name TEXT UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ
+);
+
+-- Create Table: merchants
+CREATE TABLE merchants (
+    merchant_id TEXT PRIMARY KEY,
+    merchant_name TEXT,
+    merchant_address TEXT,
+    merchant_image TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ
+);
+
+-- Create Table: users
+CREATE TABLE users (
+    uuid TEXT PRIMARY KEY,
+    username TEXT UNIQUE,
+    email TEXT UNIQUE,
+    password TEXT,
+    role_id TEXT,
+    merchant_id TEXT DEFAULT NULL,
+    verification BOOLEAN DEFAULT false,
+    user_detail JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ,
+    CONSTRAINT fk_users_role FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE SET NULL ON UPDATE CASCADE,
+);
+-- next step query users
+CREATE OR REPLACE FUNCTION delete_merchant_on_user_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM merchants
+    WHERE merchant_id = OLD.merchant_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- next step query users
+CREATE TRIGGER delete_merchant_trigger
+AFTER DELETE ON users
+FOR EACH ROW
+EXECUTE FUNCTION delete_merchant_on_user_delete();
+
+
+-- Create Table: categories
+CREATE TABLE categories (
+    category_id TEXT PRIMARY KEY,
+    category_name TEXT,
+    merchant_id TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ,
+    CONSTRAINT fk_merchants_categories FOREIGN KEY (merchant_id) REFERENCES merchants(merchant_id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- Create Table: products
+CREATE TABLE products (
+    product_id TEXT PRIMARY KEY,
+    category_id TEXT,
+    merchant_id TEXT,
+    product_name TEXT,
+    product_price TEXT,
+    product_image TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ,
+    CONSTRAINT fk_categories_product FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT fk_merchants_product FOREIGN KEY (merchant_id) REFERENCES merchants(merchant_id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- Create Table: transactions
+CREATE TABLE transactions (
+    transaction_id TEXT PRIMARY KEY,
+    buyer_id TEXT,
+    transaction_date DATE,
+    total_amount NUMERIC,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ,
+    CONSTRAINT fk_transactions_buyer FOREIGN KEY (buyer_id) REFERENCES users(uuid) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- Create Table: detail_transactions
+CREATE TABLE detail_transactions (
+    detail_transaction_id TEXT PRIMARY KEY,
+    transaction_id TEXT,
+    product_id TEXT,
+    quantity INT,
+    price NUMERIC,
+    subtotal NUMERIC,
+    merchant_id TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ,
+    CONSTRAINT fk_transactions_details FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_products_detail FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_merchants_detail FOREIGN KEY (merchant_id) REFERENCES merchants(merchant_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Create Table: payments
+CREATE TABLE payments (
+    payment_id TEXT PRIMARY KEY,
+    buyer_id text,
+    amount NUMERIC,
+    payment_method TEXT, 
+    detail_transaction JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_payments_buyer FOREIGN KEY (buyer_id) REFERENCES users(uuid) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+
+-- Create Table: shipping
+CREATE TABLE shippings (
+    shipping_id TEXT PRIMARY KEY,
+    buyer_id text,
+    ship_name TEXT,
+    ship_address TEXT,
+    ship_city TEXT,
+    ship_state TEXT,
+    ship_country TEXT,
+    ship_phone TEXT,
+    tracking_number TEXT,
+    detail_transaction JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_shippings_buyer FOREIGN KEY (buyer_id) REFERENCES users(uuid) ON DELETE SET NULL ON UPDATE CASCADE
+);
