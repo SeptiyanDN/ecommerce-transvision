@@ -53,6 +53,16 @@ Users Testing
   Password : iyanjipyeong
 ```
 
+Tech Stack Used :
+
+```bash
+  Golang Gin Framework
+  Postgresql
+  Gorm ORM
+  S3 Storage : For Saved Assets or Image Product Picture Users And Maybe Etc.
+```
+
+
 # Information
 - The API route I'm using is 
 - Authorization
