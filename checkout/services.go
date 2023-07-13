@@ -42,7 +42,10 @@ func (s *checkoutService) ProcessCheckout(request CheckoutRequest, buyerID strin
 		}
 
 		detail_transcation = append(detail_transcation, data)
-
+		update := s.transactionRepository.UpdateStatusTransaction(transactionID)
+		if !update {
+			return err
+		}
 		TotalAmount += int(transaction.TotalAmount)
 
 	}

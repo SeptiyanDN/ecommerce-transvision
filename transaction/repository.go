@@ -12,6 +12,7 @@ type Repository interface {
 	CreateTransaction(transaction core.Transaction) error
 	GetTransactionByID(transactionID string) (core.Transaction, error)
 	GetAllTransaction(buyerID string) ([]core.Transaction, error)
+	UpdateStatusTransaction(transactionID string) bool
 }
 
 type repository struct {
@@ -69,5 +70,20 @@ func (r *repository) GetAllTransaction(buyerID string) ([]core.Transaction, erro
 	if err != nil {
 		return nil, err
 	}
+
 	return transactions, nil
+}
+
+func (r *repository) UpdateStatusTransaction(transactionID string) bool {
+	var transaction core.Transaction
+	err := r.db.Where("transaction_id = ?", transactionID).First(&transaction).Error
+	if err != nil {
+		return false
+	}
+	transaction.Status = "Paid"
+	err = r.db.Save(&transaction).Error
+	if err != nil {
+		return false
+	}
+	return true
 }

@@ -1,0 +1,2048 @@
+{
+	"info": {
+		"_postman_id": "b15baa17-5cb2-4534-823d-86e5bf26bc0f",
+		"name": "E-Commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19183216"
+	},
+	"item": [
+		{
+			"name": "Master Role",
+			"item": [
+				{
+					"name": "Create New Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role_name\": \"Buyer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/roles/create-new/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"roles",
+								"create-new",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Create New Role",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role_name\": \"Buyer\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/roles/create-new/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"roles",
+										"create-new",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:22:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "252"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Create New Role!\",\n        \"code\": 200,\n        \"status\": \"Successfully\"\n    },\n    \"data\": {\n        \"CreatedAt\": \"2023-07-13T00:22:11.540244Z\",\n        \"UpdatedAt\": \"2023-07-12T22:22:11.453558+07:00\",\n        \"role_id\": \"a8ee0013-6d22-41aa-899f-9dd751eada31\",\n        \"role_name\": \"Buyer\"\n    }\n}"
+						},
+						{
+							"name": "Failed - Already Submit / Existed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role_name\": \"Buyer\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/roles/create-new/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"roles",
+										"create-new",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:24:25 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "114"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Failed To Save New Role\",\n        \"code\": 422,\n        \"status\": \"Failed\"\n    },\n    \"data\": \"Role Name Already Registered.\"\n}"
+						},
+						{
+							"name": "Failed - Not Permitted Name Role",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role_name\": \"Buyera\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/roles/create-new/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"roles",
+										"create-new",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:24:53 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "131"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Failed To Save New Role\",\n        \"code\": 422,\n        \"status\": \"Failed\"\n    },\n    \"data\": \"You only can fill role name is Buyer or Seller\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resData = JSON.parse(responseBody)\r",
+									"pm.environment.set(\"token\", resData.data.token)\r",
+									"pm.environment.set(\"refresh_token\", resData.data.refresh_token)\r",
+									"pm.environment.set(\"uuid\", resData.data.uuid)\r",
+									"pm.environment.set(\"verified\", resData.data.verified)\r",
+									"pm.environment.set(\"merchant_id\", resData.data.merchant_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" :\"septiyan\",\r\n    \"password\" :\"iyanjipyeong\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/login/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" :\"seller\",\r\n    \"password\" :\"iyanjipyeong\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/login/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:26:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1120"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Login Successfully\",\n        \"code\": 200,\n        \"status\": \"success\"\n    },\n    \"data\": {\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoicVByZTF1WXhrR0toalZyWFNMWURoeVk3WndyZGlZYWhrM0ZrMUtubHc5bUVlbllEUWVob201YlIzeE5NcWJIb3ExaHQyQT09IiwidXNlcm5hbWUiOiJaekJxMmZoVGVMcVlfS1FSeEZSV3IyVTFvSjBrNVE9PSIsIm1lcmNoYW50X2lkIjoiSk51SE90LXRSUE53Rlo2YjRCUnZIZz09Iiwicm9sZV9pZCI6InlUYlNXMXEweGdkdlpLOWVxYThkZ2dISnBrMWRETTNoMUZtMkU4STNQaFZPaFZNNURZWm5vdnVpVEZWUnRucktEekVNU3c9PSIsInZlcmlmaWNhdGlvbiI6Im1aMTBYZEFZbEQ1WnlyQ01YNTZ1U3pSLVdWSC0iLCJleHAiOjE2ODkzMDUxOTh9.-wZHNCphAT5TwMIwuLjOGQfWYTOOvAbd9oX4MFPZq8Q\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoicVByZTF1WXhrR0toalZyWFNMWURoeVk3WndyZGlZYWhrM0ZrMUtubHc5bUVlbllEUWVob201YlIzeE5NcWJIb3ExaHQyQT09IiwidXNlcm5hbWUiOiJaekJxMmZoVGVMcVlfS1FSeEZSV3IyVTFvSjBrNVE9PSIsIm1lcmNoYW50X2lkIjoiSk51SE90LXRSUE53Rlo2YjRCUnZIZz09Iiwicm9sZV9pZCI6InlUYlNXMXEweGdkdlpLOWVxYThkZ2dISnBrMWRETTNoMUZtMkU4STNQaFZPaFZNNURZWm5vdnVpVEZWUnRucktEekVNU3c9PSIsInZlcmlmaWNhdGlvbiI6Im1aMTBYZEFZbEQ1WnlyQ01YNTZ1U3pSLVdWSC0iLCJleHAiOjE2OTE3Njc1OTh9.LbnMguqEmMuKkylMns-3-ny_IXpNN_t_yplmXYuomGk\"\n    }\n}"
+						},
+						{
+							"name": "Failed - User Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" :\"seller1\",\r\n    \"password\" :\"iyanjipyeong\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/login/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:26:53 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "140"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Login Failed\",\n        \"code\": 422,\n        \"status\": \"error\"\n    },\n    \"data\": {\n        \"error\": \"User Not Found on Database, Please Check Your Credentials\"\n    }\n}"
+						},
+						{
+							"name": "Failed - Password Credentials Wrong",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" :\"seller\",\r\n    \"password\" :\"iyanjipyeong1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/login/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:27:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "129"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Login Failed\",\n        \"code\": 422,\n        \"status\": \"error\"\n    },\n    \"data\": {\n        \"error\": \"Password Your Given Not Match! Password Wrong.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const accessToken = JSON.parse(responseBody)\r",
+									"pm.environment.set(\"token\", accessToken.data.token)\r",
+									"pm.environment.set(\"refresh_token\", accessToken.data.refresh_token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh_token\" : \"{{refresh_token}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/refresh-token/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Refreshed Token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refresh_token\" : \"{{refresh_token}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/refresh-token/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"refresh-token",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:45:11 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1128"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"New access token generated\",\n        \"code\": 200,\n        \"status\": \"success\"\n    },\n    \"data\": {\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiVWp4T3BrUTNBUlROa09YSDd0Vlk1NkRHQUR4OG1GQ29NZXMxcllHTTNNUzEyZVA3SzRJd0VqYnVmQUswZjMzLU5oSmFOUT09IiwidXNlcm5hbWUiOiJsUUx1bDFpaWo3OVNSYldXVWFwc0NaUVBwOTl0N1E9PSIsIm1lcmNoYW50X2lkIjoiSWZuczJBbk9vdmFrb0hkZ05fRGtsdz09Iiwicm9sZV9pZCI6Imd3d2tUbHdYN2Q1cEVGUVBxbS1OdnBkN0RhTzVkZl9vYm9keTJZMW5CQUM5X0d4SnVDdnpScW5XZ2pVbzFRdXJjUnc1bkE9PSIsInZlcmlmaWNhdGlvbiI6InR6TWx1TnZFaHM0TUt0VV9yRGJKRVBJUzR5ND0iLCJleHAiOjE2ODkzMDYzMTF9.kwFXCynKgGdhsRube1XxtKgyUSxtycKoGfbgnKZw1rQ\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiVWp4T3BrUTNBUlROa09YSDd0Vlk1NkRHQUR4OG1GQ29NZXMxcllHTTNNUzEyZVA3SzRJd0VqYnVmQUswZjMzLU5oSmFOUT09IiwidXNlcm5hbWUiOiJsUUx1bDFpaWo3OVNSYldXVWFwc0NaUVBwOTl0N1E9PSIsIm1lcmNoYW50X2lkIjoiSWZuczJBbk9vdmFrb0hkZ05fRGtsdz09Iiwicm9sZV9pZCI6Imd3d2tUbHdYN2Q1cEVGUVBxbS1OdnBkN0RhTzVkZl9vYm9keTJZMW5CQUM5X0d4SnVDdnpScW5XZ2pVbzFRdXJjUnc1bkE9PSIsInZlcmlmaWNhdGlvbiI6InR6TWx1TnZFaHM0TUt0VV9yRGJKRVBJUzR5ND0iLCJleHAiOjE2OTE3Njg3MTF9.YNmBpRd-DqGHS5RHBcu08R5NiSsEkrnXonsfwSGVIbU\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" :\"seller\",\r\n    \"email\" :\"seller@seller.com\",\r\n    \"password\" :\"iyanjipyeong\",\r\n    \"password_retype\" :\"iyanjipyeong\",\r\n    \"role_name\" :\"Seller\",\r\n    \"full_name\":\"Candra Novita\",\r\n    \"telepon\" :\"081210917179\",\r\n    \"address\" :\"Jl. KH Hasyim Ashari No.11\",\r\n    \"Picture\" :{{base64picture}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/register/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"register",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Register User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" :\"septiyan\",\r\n    \"email\" :\"iyanjipyeong@iyanjipyeong.com\",\r\n    \"password\" :\"iyanjipyeong\",\r\n    \"password_retype\" :\"iyanjipyeong\",\r\n    \"role_name\" :\"Buyer\",\r\n    \"full_name\":\"Septiyan Dwi Nugroho\",\r\n    \"telepon\" :\"081210917179\",\r\n    \"address\" :\"Jl. KH Hasyim Ashari No.11\",\r\n    \"Picture\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:22:21 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "468"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Account Has Been Created\",\n        \"code\": 200,\n        \"status\": \"success\"\n    },\n    \"data\": {\n        \"email\": \"iyanjipyeong@iyanjipyeong.com\",\n        \"role_id\": \"a8ee0013-6d22-41aa-899f-9dd751eada31\",\n        \"role_name\": \"Buyer\",\n        \"user_detail\": {\n            \"Address\": \"Jl. KH Hasyim Ashari No.11\",\n            \"full_name\": \"Septiyan Dwi Nugroho\",\n            \"picture\": \"https://is3.cloudhost.id/ecommerce/picture/septiyan.jpeg\",\n            \"telepon\": \"081210917179\"\n        },\n        \"username\": \"septiyan\",\n        \"uuid\": \"7c7ea033-0626-4629-96dc-3aa3978a9dee\",\n        \"verification\": false\n    }\n}"
+						},
+						{
+							"name": "Failed - Already Registered",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" :\"septiyan\",\r\n    \"email\" :\"iyanjipyeong@iyanjipyeong.com\",\r\n    \"password\" :\"iyanjipyeong\",\r\n    \"password_retype\" :\"iyanjipyeong\",\r\n    \"role_name\" :\"Buyer\",\r\n    \"full_name\":\"Septiyan Dwi Nugroho\",\r\n    \"telepon\" :\"081210917179\",\r\n    \"address\" :\"Jl. KH Hasyim Ashari No.11\",\r\n    \"Picture\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:23:23 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Register Account Failed\",\n        \"code\": 400,\n        \"status\": \"error\"\n    },\n    \"data\": \"Username Already Registered! Please Loggin or Forgot Password.\"\n}"
+						},
+						{
+							"name": "Failed - Invalid Request Required",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" :\"\",\r\n    \"email\" :\"iyanjipyeong@iyanjipyeong.com\",\r\n    \"password\" :\"iyanjipyeong\",\r\n    \"password_retype\" :\"iyanjipyeong\",\r\n    \"role_name\" :\"Buyer\",\r\n    \"full_name\":\"Septiyan Dwi Nugroho\",\r\n    \"telepon\" :\"081210917179\",\r\n    \"address\" :\"Jl. KH Hasyim Ashari No.11\",\r\n    \"Picture\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:23:47 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "179"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Request Invalid! Please Check Your Request\",\n        \"code\": 422,\n        \"status\": \"Failed\"\n    },\n    \"data\": [\n        {\n            \"key\": \"Username\",\n            \"message\": \"Username required! Please fill data Username\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Verification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"uuid\": \"0afcd532-dd68-4b96-ac51-ffe33cf0df5c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/verification/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"verification",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Failed - User Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"7c7ea033-0626-4629-96dc-3aa3978a9dee\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/verification/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"verification",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:42:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Failed To Verification. Please Check Your Credentials\",\n        \"code\": 401,\n        \"status\": \"Failed\"\n    },\n    \"data\": \"Users Not Found\"\n}"
+						},
+						{
+							"name": "Success - Verified",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"10fe2d52-d1d7-4ce0-9be3-073d5873ba79\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/verification/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"verification",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:43:02 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Verification. Please Login Using Your Credentials\",\n        \"code\": 200,\n        \"status\": \"Successfully\"\n    },\n    \"data\": true\n}"
+						},
+						{
+							"name": "Failed - Already Verified",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"10fe2d52-d1d7-4ce0-9be3-073d5873ba79\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/verification/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"verification",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:44:31 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "136"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Failed To Verification. Please Check Your Credentials\",\n        \"code\": 401,\n        \"status\": \"Failed\"\n    },\n    \"data\": \"You Already Verified!\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Merchant",
+			"item": [
+				{
+					"name": "Registrasi Merchant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"merchant_name\" :\"Krenz Snack Official\",\r\n    \"merchant_address\" : \"Purwokerto\",\r\n    \"merchant_image\" : {{base64picture}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/merchant/registrasi-merchant/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"merchant",
+								"registrasi-merchant",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Register Merchant",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"merchant_name\" :\"Krenz Snack Official\",\r\n    \"merchant_address\" : \"Purwokerto\",\r\n    \"merchant_image\" : {{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/merchant/registrasi-merchant/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"merchant",
+										"registrasi-merchant",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:52:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "423"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Congratulation. Success To Register New Merchant!\",\n        \"code\": 200,\n        \"status\": \"Successfully\"\n    },\n    \"data\": {\n        \"Created_at\": \"2023-07-13T00:52:48.088988Z\",\n        \"Updated_at\": \"0001-01-01T00:00:00Z\",\n        \"merchant_address\": \"Purwokerto\",\n        \"merchant_id\": \"332c9250-be59-42ef-a981-6052a0845d1f\",\n        \"merchant_image\": \"https://is3.cloudhost.id/ecommerce/picture/332c9250-be59-42ef-a981-6052a0845d1f.jpeg\",\n        \"merchant_name\": \"Krenz Snack Official\"\n    }\n}"
+						},
+						{
+							"name": "Failed - Already Registered Merchant",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"merchant_name\" :\"Krenz Snack Official\",\r\n    \"merchant_address\" : \"Purwokerto\",\r\n    \"merchant_image\" : {{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/merchant/registrasi-merchant/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"merchant",
+										"registrasi-merchant",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 15:58:25 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "157"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Failed To Registered Merchant! Please Contact Admin Support\",\n        \"code\": 400,\n        \"status\": \"Failed\"\n    },\n    \"data\": \"Failed! Your Already Have a Merchant\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create New Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resData = JSON.parse(responseBody)",
+									"pm.environment.set(\"category_id\", resData.data.category_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_name\" :\"Food\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/categories/create-new/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categories",
+								"create-new",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Create New Merchant",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_name\" :\"Drinks\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/categories/create-new/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"categories",
+										"create-new",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 16:03:49 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "317"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Create New Data Category\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": {\n        \"CreatedAt\": \"2023-07-13T01:03:49.802814Z\",\n        \"UpdatedAt\": \"2023-07-12T23:03:49.770082+07:00\",\n        \"category_id\": \"bff16afd-f32e-4352-a9c1-c2b2f4a191a3\",\n        \"category_name\": \"Drinks\",\n        \"merchant_id\": \"1a8307de-eccc-44b4-9a15-bfcf32cb2c26\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/categories/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create New Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resData = JSON.parse(responseBody)",
+									"pm.environment.set(\"product_id\", resData.data.product_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_id\" :\"{{category_id}}\",\r\n    \"merchant_id\" :\"{{merchant_id}}\",\r\n    \"product_name\" :\"Mie Ayam\",\r\n    \"product_price\" :\"12000\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/products/create-new/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"products",
+								"create-new",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Create Product",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_id\" :\"{{category_id}}\",\r\n    \"merchant_id\" :\"{{merchant_id}}\",\r\n    \"product_name\" :\"Coca-cola\",\r\n    \"product_price\" :\"10000\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/products/create-new/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"products",
+										"create-new",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 17:24:39 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "498"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Create New Data Products\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": {\n        \"CreatedAt\": \"2023-07-13T02:24:39.001401Z\",\n        \"UpdatedAt\": \"2023-07-13T00:24:39.001568+07:00\",\n        \"category_id\": \"0b36ac4b-6a88-4f2c-967e-03b982addbe3\",\n        \"merchant_id\": \"32a0bd61-d2b3-45c8-b512-256db8618488\",\n        \"product_id\": \"a4a652a4-4440-45e6-9744-a4cc1d0a72f0\",\n        \"product_image\": \"https://is3.cloudhost.id/ecommerce/picture/a4a652a4-4440-45e6-9744-a4cc1d0a72f0.jpeg\",\n        \"product_name\": \"Coca-cola\",\n        \"product_price\": \"10000\"\n    }\n}"
+						},
+						{
+							"name": "Failed - Miss Required",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_id\" :\"\",\r\n    \"merchant_id\" :\"{{merchant_id}}\",\r\n    \"product_name\" :\"Coca-cola\",\r\n    \"product_price\" :\"10000\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/products/create-new/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"products",
+										"create-new",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 18:02:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "185"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Request Invalid! Please Check Your Request\",\n        \"code\": 422,\n        \"status\": \"Failed\"\n    },\n    \"data\": [\n        {\n            \"key\": \"CategoryID\",\n            \"message\": \"CategoryID required! Please fill data CategoryID\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resData = JSON.parse(responseBody)",
+									"pm.environment.set(\"product_id\", resData.data.product_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_id\" :\"{{category_id}}\",\r\n    \"merchant_id\" :\"{{merchant_id}}\",\r\n    \"product_name\" :\"Keripik Pisang\",\r\n    \"product_price\" :\"10000\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/products/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Get All Product",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_id\" :\"{{category_id}}\",\r\n    \"merchant_id\" :\"{{merchant_id}}\",\r\n    \"product_name\" :\"Keripik Pisang\",\r\n    \"product_price\" :\"10000\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/products/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"products",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 17:28:16 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "905"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Get Data Products\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": [\n        {\n            \"category_id\": \"dba9ff7f-00b5-4351-99d2-50b1194f5165\",\n            \"created_at\": \"2023-07-13T02:06:10.094672Z\",\n            \"merchant_id\": \"32a0bd61-d2b3-45c8-b512-256db8618488\",\n            \"product_id\": \"760b1e74-7669-4dfe-b045-014ac462b999\",\n            \"product_image\": \"https://is3.cloudhost.id/ecommerce/picture/760b1e74-7669-4dfe-b045-014ac462b999.jpeg\",\n            \"product_name\": \"Keripik Pisang\",\n            \"product_price\": \"10000\",\n            \"updated_at\": \"2023-07-13T00:06:10.094903+07:00\"\n        },\n        {\n            \"category_id\": \"0b36ac4b-6a88-4f2c-967e-03b982addbe3\",\n            \"created_at\": \"2023-07-13T02:24:39.001401Z\",\n            \"merchant_id\": \"32a0bd61-d2b3-45c8-b512-256db8618488\",\n            \"product_id\": \"a4a652a4-4440-45e6-9744-a4cc1d0a72f0\",\n            \"product_image\": \"https://is3.cloudhost.id/ecommerce/picture/a4a652a4-4440-45e6-9744-a4cc1d0a72f0.jpeg\",\n            \"product_name\": \"Coca-cola\",\n            \"product_price\": \"10000\",\n            \"updated_at\": \"2023-07-13T00:24:39.001568+07:00\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resData = JSON.parse(responseBody)",
+									"pm.environment.set(\"product_id\", resData.data.product_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_id\" :\"{{category_id}}\",\r\n    \"merchant_id\" :\"{{merchant_id}}\",\r\n    \"product_name\" :\"Sprit\",\r\n    \"product_price\" :\"3500\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/products/8f050fb1-a5f6-4665-a4cd-5bc4c6e2fe6d/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"products",
+								"8f050fb1-a5f6-4665-a4cd-5bc4c6e2fe6d",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Update Product",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_id\" :\"{{category_id}}\",\r\n    \"merchant_id\" :\"{{merchant_id}}\",\r\n    \"product_name\" :\"Sprit\",\r\n    \"product_price\" :\"3500\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/products/a4a652a4-4440-45e6-9744-a4cc1d0a72f0/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"products",
+										"a4a652a4-4440-45e6-9744-a4cc1d0a72f0",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 18:01:49 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "491"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Update Data Products\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": {\n        \"category_id\": \"0b36ac4b-6a88-4f2c-967e-03b982addbe3\",\n        \"created_at\": \"2023-07-13T02:24:39.001401Z\",\n        \"merchant_id\": \"32a0bd61-d2b3-45c8-b512-256db8618488\",\n        \"product_id\": \"a4a652a4-4440-45e6-9744-a4cc1d0a72f0\",\n        \"product_image\": \"https://is3.cloudhost.id/ecommerce/picture/49129201-1570-454a-b91f-4b75b2488443.jpeg\",\n        \"product_name\": \"Sprit\",\n        \"product_price\": \"3500\",\n        \"updated_at\": \"2023-07-13T01:01:49.774838+07:00\"\n    }\n}"
+						},
+						{
+							"name": "Failed - Don't Update Product Merchant Another",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_id\" :\"{{category_id}}\",\r\n    \"merchant_id\" :\"12312\",\r\n    \"product_name\" :\"Sprit\",\r\n    \"product_price\" :\"3500\",\r\n    \"product_image\" :{{base64picture}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/products/a4a652a4-4440-45e6-9744-a4cc1d0a72f0/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"products",
+										"a4a652a4-4440-45e6-9744-a4cc1d0a72f0",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 18:06:24 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "150"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Failed To Update  Data Products\",\n        \"code\": 422,\n        \"status\": \"Failed\"\n    },\n    \"data\": \"Ilegal! You don't have permissions to update this product\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resData = JSON.parse(responseBody)",
+									"pm.environment.set(\"product_id\", resData.data.product_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/products/8f050fb1-a5f6-4665-a4cd-5bc4c6e2fe6d/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"products",
+								"8f050fb1-a5f6-4665-a4cd-5bc4c6e2fe6d",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Failed - Product Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/products/a4a652a4-4440-45e6-9744-a4cc1d0a72f/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"products",
+										"a4a652a4-4440-45e6-9744-a4cc1d0a72f",
+										""
+									]
+								}
+							},
+							"status": "Unprocessable Entity",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 18:14:09 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "109"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Failed To Remove Data Products\",\n        \"code\": 422,\n        \"status\": \"Failed\"\n    },\n    \"data\": \"product not found\"\n}"
+						},
+						{
+							"name": "Success - Remove Product",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/products/a4a652a4-4440-45e6-9744-a4cc1d0a72f0/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"products",
+										"a4a652a4-4440-45e6-9744-a4cc1d0a72f0",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jul 2023 18:14:27 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Remove Data Products\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": true\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Create New Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product\": [\n    {\n      \"product_id\": \"c37bd544-3d5c-4c01-acc3-c1e36b72ad38\",\n      \"quantity\": 4\n    },\n    {\n      \"product_id\": \"3494c445-8881-453e-95aa-b79d36b7292b\",\n      \"quantity\": 3\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/transactions/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"transactions",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Create New Transaction",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"product\": [\n    {\n      \"product_id\": \"991d06db-244e-4349-9cf5-ee1bea362695\",\n      \"quantity\": 10\n    },\n    {\n      \"product_id\": \"47aaca23-8a21-44a9-88cc-7a2bff6942dd\",\n      \"quantity\": 12\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/transactions/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"transactions",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jul 2023 06:59:37 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "158"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Congratulations. Order Success Replaced! Status Pending. Please Payment Your Order. Thank You\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": true\n}"
+						},
+						{
+							"name": "Failed - Lenght Quanity And Product Not Same",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"product\": [\n    {\n      \"product_id\": \"991d06db-244e-4349-9cf5-ee1bea362695\"\n    },\n    {\n      \"product_id\": \"47aaca23-8a21-44a9-88cc-7a2bff6942dd\",\n      \"quantity\": 12\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/transactions/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"transactions",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jul 2023 07:05:51 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Oh No! Create New Order Failed\",\n        \"code\": 400,\n        \"status\": \"Success\"\n    },\n    \"data\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "History Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/transactions/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"transactions",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - History Transactions ALL",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/transactions/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"transactions",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jul 2023 06:59:46 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1772"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Congratulations. Success To Get Detail Transactions BY ID\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": [\n        {\n            \"buyer\": {\n                \"created_at\": \"2023-07-13T15:56:11.90406Z\",\n                \"email\": \"septiyan@septiyan.com\",\n                \"password\": \"$2a$10$ENNKFGRPJGgqwXKAqnX.OeAPD.UPoD3s16UbBfIlSDWeQ0qqUkJc.\",\n                \"role_id\": \"923bc7c3-c82d-4217-9559-d9f8e21648ce\",\n                \"updated_at\": \"2023-07-13T13:56:53.98814+07:00\",\n                \"user_detail\": {\n                    \"Address\": \"Jl. KH Hasyim Ashari No.11\",\n                    \"full_name\": \"Septiyan Dwi Nugroho\",\n                    \"picture\": \"https://is3.cloudhost.id/ecommerce/picture/septiyan.jpeg\",\n                    \"telepon\": \"081210917179\"\n                },\n                \"username\": \"septiyan\",\n                \"uuid\": \"137015c2-17e3-40c9-9eab-f429ec310378\",\n                \"verification\": true\n            },\n            \"buyer_id\": \"137015c2-17e3-40c9-9eab-f429ec310378\",\n            \"created_at\": \"2023-07-13T15:59:32.146454Z\",\n            \"details\": null,\n            \"status\": \"Un-Paid\",\n            \"total_amount\": 44000,\n            \"transaction_date\": \"2023-07-13T00:00:00Z\",\n            \"transaction_id\": \"TRX_91e6ae06-5ae1-40bb-bc70-5ae4a85010cd\",\n            \"updated_at\": \"2023-07-13T13:59:32.146571+07:00\"\n        },\n        {\n            \"buyer\": {\n                \"created_at\": \"2023-07-13T15:56:11.90406Z\",\n                \"email\": \"septiyan@septiyan.com\",\n                \"password\": \"$2a$10$ENNKFGRPJGgqwXKAqnX.OeAPD.UPoD3s16UbBfIlSDWeQ0qqUkJc.\",\n                \"role_id\": \"923bc7c3-c82d-4217-9559-d9f8e21648ce\",\n                \"updated_at\": \"2023-07-13T13:56:53.98814+07:00\",\n                \"user_detail\": {\n                    \"Address\": \"Jl. KH Hasyim Ashari No.11\",\n                    \"full_name\": \"Septiyan Dwi Nugroho\",\n                    \"picture\": \"https://is3.cloudhost.id/ecommerce/picture/septiyan.jpeg\",\n                    \"telepon\": \"081210917179\"\n                },\n                \"username\": \"septiyan\",\n                \"uuid\": \"137015c2-17e3-40c9-9eab-f429ec310378\",\n                \"verification\": true\n            },\n            \"buyer_id\": \"137015c2-17e3-40c9-9eab-f429ec310378\",\n            \"created_at\": \"2023-07-13T15:59:37.062028Z\",\n            \"details\": null,\n            \"status\": \"Un-Paid\",\n            \"total_amount\": 106000,\n            \"transaction_date\": \"2023-07-13T00:00:00Z\",\n            \"transaction_id\": \"TRX_2def6590-3562-4413-b5a1-5829fbcbc462\",\n            \"updated_at\": \"2023-07-13T13:59:37.062185+07:00\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Detail Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/transactions/detail/TRX_9cb2e4c0-9990-4b91-b2ba-899c73737544/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"transactions",
+								"detail",
+								"TRX_9cb2e4c0-9990-4b91-b2ba-899c73737544",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Get Detail Transaction",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/transactions/detail/TRX_f1eb7b33-9ef3-4c2c-9075-7b56173a1d1d/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"transactions",
+										"detail",
+										"TRX_f1eb7b33-9ef3-4c2c-9075-7b56173a1d1d",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jul 2023 06:42:27 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Congratulations. Order Success Replaced! Status Pending. Please Payment Your Order. Thank You\",\n        \"code\": 200,\n        \"status\": \"Success\"\n    },\n    \"data\": {\n        \"buyer\": {\n            \"created_at\": \"2023-07-13T13:44:06.071415Z\",\n            \"email\": \"seller@seller.com\",\n            \"merchant_id\": \"cf3c3aee-aa49-499a-94de-c411ad3043a3\",\n            \"password\": \"$2a$10$8a1Y3KwBhCA/5ZWryTqqGOJKQIjsjTZrBi50jpwUnftNiOIx1a3sq\",\n            \"role_id\": \"792a00b6-98fb-4ebb-914f-7c0618741d23\",\n            \"updated_at\": \"2023-07-13T11:44:21.244669+07:00\",\n            \"user_detail\": {\n                \"Address\": \"Jl. KH Hasyim Ashari No.11\",\n                \"full_name\": \"Septiyan Dwi Nugroho\",\n                \"picture\": \"https://is3.cloudhost.id/ecommerce/picture/seller.jpeg\",\n                \"telepon\": \"081210917179\"\n            },\n            \"username\": \"seller\",\n            \"uuid\": \"04271e2a-39b4-4d9f-8107-c08341ea025e\",\n            \"verification\": true\n        },\n        \"buyer_id\": \"04271e2a-39b4-4d9f-8107-c08341ea025e\",\n        \"created_at\": \"2023-07-13T14:52:03.990342Z\",\n        \"details\": [\n            {\n                \"created_at\": \"2023-07-13T14:52:03.990342Z\",\n                \"detail_transaction_id\": \"DETAIL_885a519d-dd5c-42ba-aba4-b37153dc1512\",\n                \"merchant\": {\n                    \"created_at\": \"2023-07-13T13:44:21.241118Z\",\n                    \"merchant_address\": \"Purwokerto\",\n                    \"merchant_id\": \"cf3c3aee-aa49-499a-94de-c411ad3043a3\",\n                    \"merchant_image\": \"https://is3.cloudhost.id/ecommerce/picture/cf3c3aee-aa49-499a-94de-c411ad3043a3.jpeg\",\n                    \"merchant_name\": \"Krenz Snack Official\",\n                    \"updated_at\": \"2023-07-13T11:44:21.241299+07:00\"\n                },\n                \"merchant_id\": \"cf3c3aee-aa49-499a-94de-c411ad3043a3\",\n                \"price\": 4000,\n                \"product_id\": \"fa1c681c-d239-4899-9d70-962c661b2cdd\",\n                \"quantity\": 5,\n                \"subtotal\": 20000,\n                \"transaction_id\": \"TRX_f1eb7b33-9ef3-4c2c-9075-7b56173a1d1d\",\n                \"updated_at\": \"2023-07-13T12:52:03.991179+07:00\"\n            },\n            {\n                \"created_at\": \"2023-07-13T14:52:03.990342Z\",\n                \"detail_transaction_id\": \"DETAIL_3fb5feb7-a993-44ba-9215-9aa73bc51498\",\n                \"merchant\": {\n                    \"created_at\": \"2023-07-13T13:44:21.241118Z\",\n                    \"merchant_address\": \"Purwokerto\",\n                    \"merchant_id\": \"cf3c3aee-aa49-499a-94de-c411ad3043a3\",\n                    \"merchant_image\": \"https://is3.cloudhost.id/ecommerce/picture/cf3c3aee-aa49-499a-94de-c411ad3043a3.jpeg\",\n                    \"merchant_name\": \"Krenz Snack Official\",\n                    \"updated_at\": \"2023-07-13T11:44:21.241299+07:00\"\n                },\n                \"merchant_id\": \"cf3c3aee-aa49-499a-94de-c411ad3043a3\",\n                \"price\": 7000,\n                \"product_id\": \"a653bcf8-a071-4144-923b-a153864457f7\",\n                \"quantity\": 3,\n                \"subtotal\": 21000,\n                \"transaction_id\": \"TRX_f1eb7b33-9ef3-4c2c-9075-7b56173a1d1d\",\n                \"updated_at\": \"2023-07-13T12:52:03.991179+07:00\"\n            }\n        ],\n        \"status\": \"Un-Paid\",\n        \"total_amount\": 41000,\n        \"transaction_date\": \"2023-07-13T00:00:00Z\",\n        \"transaction_id\": \"TRX_f1eb7b33-9ef3-4c2c-9075-7b56173a1d1d\",\n        \"updated_at\": \"2023-07-13T12:52:03.990466+07:00\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Checkout",
+			"item": [
+				{
+					"name": "Actions Checkout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transaction_id\": [\n        \"TRX_9cb2e4c0-9990-4b91-b2ba-899c73737544\",\n        \"TRX_43b857ea-eb72-41ab-9646-9477e5692965\"\n    ],\n    \"ship_name\":\"Septiyan\",\n    \"ship_address\":\"Jl. KH Hasyim Ashari No.11\",\n    \"ship_city\":\"Kota Tangerang\",\n    \"ship_state\":\"Kel. Pinang\",\n    \"ship_country\":\"Kec. Pinang\",\n    \"ship_phone\":\"081210917179\",\n    \"tracking_number\":\"WADXX210221221\",\n    \"payment_method\":\"Bank Transfer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/checkout/actions/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"checkout",
+								"actions",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Paid Checkout And Payment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"transaction_id\": [\n        \"TRX_9cb2e4c0-9990-4b91-b2ba-899c73737544\",\n        \"TRX_43b857ea-eb72-41ab-9646-9477e5692965\"\n    ],\n    \"ship_name\":\"Septiyan\",\n    \"ship_address\":\"Jl. KH Hasyim Ashari No.11\",\n    \"ship_city\":\"Kota Tangerang\",\n    \"ship_state\":\"Kel. Pinang\",\n    \"ship_country\":\"Kec. Pinang\",\n    \"ship_phone\":\"081210917179\",\n    \"tracking_number\":\"WADXX210221221\",\n    \"payment_method\":\"Bank Transfer\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/checkout/actions/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"checkout",
+										"actions",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jul 2023 15:10:00 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "120"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success To Checkout And Payment Your Orders! Thank You\",\n        \"code\": 200,\n        \"status\": \"Succcess\"\n    },\n    \"data\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "History Payments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/checkout/history/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"checkout",
+								"history",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Get History Checkout",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/checkout/history/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"checkout",
+										"history",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jul 2023 15:10:10 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"message\": \"Success\",\n        \"code\": 200,\n        \"status\": \"Succcess\"\n    },\n    \"data\": [\n        {\n            \"amount\": \"222000\",\n            \"buyer_id\": \"59dcf375-80fe-4278-8dff-416399e0b5a4\",\n            \"detail_payment\": [\n                {\n                    \"detail_transaction\": [\n                        {\n                            \"created_at\": \"2023-07-13T23:57:44.60771Z\",\n                            \"detail_transaction_id\": \"DETAIL_af17c7cc-9750-4b35-991b-a527bba81885\",\n                            \"merchant\": {\n                                \"created_at\": \"2023-07-13T23:52:48.238776Z\",\n                                \"merchant_address\": \"Purwokerto\",\n                                \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                                \"merchant_image\": \"https://is3.cloudhost.id/ecommerce/picture/9d25b210-0619-43df-bb29-fcbd9e3cd62e.jpeg\",\n                                \"merchant_name\": \"Krenz Snack Official\",\n                                \"updated_at\": \"2023-07-13T21:52:48.264696+07:00\"\n                            },\n                            \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                            \"price\": 3000,\n                            \"product_id\": \"c37bd544-3d5c-4c01-acc3-c1e36b72ad38\",\n                            \"quantity\": 10,\n                            \"subtotal\": 30000,\n                            \"transaction_id\": \"TRX_9cb2e4c0-9990-4b91-b2ba-899c73737544\",\n                            \"updated_at\": \"2023-07-13T21:57:44.612524+07:00\"\n                        },\n                        {\n                            \"created_at\": \"2023-07-13T23:57:44.60771Z\",\n                            \"detail_transaction_id\": \"DETAIL_2e3a1d0a-7cf5-4cd6-8f67-3b3ef4c259fc\",\n                            \"merchant\": {\n                                \"created_at\": \"2023-07-13T23:52:48.238776Z\",\n                                \"merchant_address\": \"Purwokerto\",\n                                \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                                \"merchant_image\": \"https://is3.cloudhost.id/ecommerce/picture/9d25b210-0619-43df-bb29-fcbd9e3cd62e.jpeg\",\n                                \"merchant_name\": \"Krenz Snack Official\",\n                                \"updated_at\": \"2023-07-13T21:52:48.264696+07:00\"\n                            },\n                            \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                            \"price\": 12000,\n                            \"product_id\": \"3494c445-8881-453e-95aa-b79d36b7292b\",\n                            \"quantity\": 12,\n                            \"subtotal\": 144000,\n                            \"transaction_id\": \"TRX_9cb2e4c0-9990-4b91-b2ba-899c73737544\",\n                            \"updated_at\": \"2023-07-13T21:57:44.612524+07:00\"\n                        }\n                    ],\n                    \"total_amount\": 174000,\n                    \"transaction_id\": \"TRX_9cb2e4c0-9990-4b91-b2ba-899c73737544\"\n                },\n                {\n                    \"detail_transaction\": [\n                        {\n                            \"created_at\": \"2023-07-13T23:57:48.948595Z\",\n                            \"detail_transaction_id\": \"DETAIL_e46c74ae-9e69-4428-b876-1b66b3ef8784\",\n                            \"merchant\": {\n                                \"created_at\": \"2023-07-13T23:52:48.238776Z\",\n                                \"merchant_address\": \"Purwokerto\",\n                                \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                                \"merchant_image\": \"https://is3.cloudhost.id/ecommerce/picture/9d25b210-0619-43df-bb29-fcbd9e3cd62e.jpeg\",\n                                \"merchant_name\": \"Krenz Snack Official\",\n                                \"updated_at\": \"2023-07-13T21:52:48.264696+07:00\"\n                            },\n                            \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                            \"price\": 3000,\n                            \"product_id\": \"c37bd544-3d5c-4c01-acc3-c1e36b72ad38\",\n                            \"quantity\": 4,\n                            \"subtotal\": 12000,\n                            \"transaction_id\": \"TRX_43b857ea-eb72-41ab-9646-9477e5692965\",\n                            \"updated_at\": \"2023-07-13T21:57:48.913799+07:00\"\n                        },\n                        {\n                            \"created_at\": \"2023-07-13T23:57:48.948595Z\",\n                            \"detail_transaction_id\": \"DETAIL_3634ca6d-8e74-48bc-afd9-8fe0ccdf1f9e\",\n                            \"merchant\": {\n                                \"created_at\": \"2023-07-13T23:52:48.238776Z\",\n                                \"merchant_address\": \"Purwokerto\",\n                                \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                                \"merchant_image\": \"https://is3.cloudhost.id/ecommerce/picture/9d25b210-0619-43df-bb29-fcbd9e3cd62e.jpeg\",\n                                \"merchant_name\": \"Krenz Snack Official\",\n                                \"updated_at\": \"2023-07-13T21:52:48.264696+07:00\"\n                            },\n                            \"merchant_id\": \"9d25b210-0619-43df-bb29-fcbd9e3cd62e\",\n                            \"price\": 12000,\n                            \"product_id\": \"3494c445-8881-453e-95aa-b79d36b7292b\",\n                            \"quantity\": 3,\n                            \"subtotal\": 36000,\n                            \"transaction_id\": \"TRX_43b857ea-eb72-41ab-9646-9477e5692965\",\n                            \"updated_at\": \"2023-07-13T21:57:48.913799+07:00\"\n                        }\n                    ],\n                    \"total_amount\": 48000,\n                    \"transaction_id\": \"TRX_43b857ea-eb72-41ab-9646-9477e5692965\"\n                }\n            ],\n            \"email\": \"septiyan@septiyan.com\",\n            \"payment_id\": \"525bafbe-47be-402a-92d9-3c39b93a4bbb\",\n            \"payment_method\": \"Bank Transfer\",\n            \"role_id\": \"9a7d654c-fd02-4aa5-9fd8-5064bbfaa813\",\n            \"role_name\": \"Buyer\",\n            \"user_detail\": {\n                \"Address\": \"Jl. KH Hasyim Ashari No.11\",\n                \"full_name\": \"Septiyan Dwi Nugroho\",\n                \"picture\": \"https://is3.cloudhost.id/ecommerce/picture/septiyan.jpeg\",\n                \"telepon\": \"081210917179\"\n            },\n            \"username\": \"septiyan\",\n            \"uuid\": \"59dcf375-80fe-4278-8dff-416399e0b5a4\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Lading Page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}",
+					"host": [
+						"{{baseURL}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

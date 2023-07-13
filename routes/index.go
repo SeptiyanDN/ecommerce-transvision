@@ -82,7 +82,7 @@ func Routing(router *gin.Engine, dbs privatehelpers.DBStruct, initGorm *gorm.DB)
 	{
 		productRouter.Use(AuthMiddleware(authServices, userServices, []string{"Seller", "Buyer"}))
 		productRouter.GET("/", productHandler.GetAllProduct)
-		productRouter.Use(AuthMiddleware(authServices, userServices, []string{"Buyer"}))
+		productRouter.Use(AuthMiddleware(authServices, userServices, []string{"Seller"}))
 		productRouter.POST("/create-new/", productHandler.CreateNewProduct)
 		productRouter.POST("/:product_id/", productHandler.UpdateProduct)
 		productRouter.DELETE("/:product_id/", productHandler.DeleteProduct)
