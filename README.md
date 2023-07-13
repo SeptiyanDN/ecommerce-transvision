@@ -86,6 +86,18 @@ Users Testing
 - 1. {{baseURL}}/api/v1/checkout/actions/ (Seller & Buyer Access)
 - 2. {{baseURL}}/api/v1/checkout/history/ (Seller & Buyer Access)
 
+## Screenshots
+- for additional security, I encrypt each value in the JWT. so when the JWT token is spread it will minimize data abuse
+
+![App Screenshot](./security.png)
+
+## Screenshots
+- ERD about this project
+
+![App Screenshot](./relational.png)
+
+
+
 
 Thank You and Please Review My Code
 
